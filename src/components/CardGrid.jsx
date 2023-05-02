@@ -6,7 +6,7 @@ import CardModel from './CardModel';
 import {usePizza} from '../context';
 
 const CardGrid = ()=> {
-    const {pizzas, setPizza, pizza} = usePizza()
+    const {pizzas} = usePizza()
     
   return (
     <Container>

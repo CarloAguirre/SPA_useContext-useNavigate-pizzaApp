@@ -11,11 +11,11 @@ import { PizzaProvider, usePizza} from "./context";
 
 function App() {
 
-  const { pizzas, carrito, setCarrito, total, setTotal, onClickAddHandler, onClickRemoveHandler, onAddCarritoHandler } = usePizza();
+  const { pizzas, carrito, setCarrito, total, setTotal, onClickAddHandler, onClickRemoveHandler, onAddCarritoHandler, pizza, setPizza } = usePizza();
 
   return (
     <div className="App">
-      <PizzaProvider value={{ pizzas, carrito, setCarrito, total, setTotal, onClickAddHandler, onClickRemoveHandler, onAddCarritoHandler }} >
+      <PizzaProvider value={{ pizzas, carrito, setCarrito, total, setTotal, onClickAddHandler, onClickRemoveHandler, onAddCarritoHandler, pizza, setPizza  }} >
       <BrowserRouter>
         <Navbar />
         <Routes>    
@@ -28,7 +28,6 @@ function App() {
         </Routes>
       </BrowserRouter>
       </PizzaProvider>
-   
     </div>
   );
 }

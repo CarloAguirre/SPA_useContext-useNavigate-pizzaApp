@@ -1,5 +1,9 @@
 import { createContext, useState, useEffect, useContext } from "react"
 
+import {addPizzaOncarrito} from "./helpers/onClickAddHandler"
+import { removePizzaFromCarrito } from "./helpers/onClickRemoveHandler"
+import { addPizzaTocarrito } from "./helpers/onAddCarritoHandler"
+
 
  const PizzaContext = createContext({})
 
@@ -21,57 +25,16 @@ import { createContext, useState, useEffect, useContext } from "react"
 
 
     const onClickAddHandler = ({target})=>{
-      const selectedPizza = pizzas.find(p => p.name === target.name);
-      const carritoPizzaFind = carrito.find(pizza => pizza.name === selectedPizza.name)
-      const carritoPizzaIndex = carrito.findIndex(pizza => pizza.name === selectedPizza.name)
-      const newCarrito = [...carrito]
-      
-      if(carritoPizzaFind){
-        newCarrito[carritoPizzaIndex].price += (selectedPizza.price / (newCarrito[carritoPizzaIndex].cantidad))
-        newCarrito[carritoPizzaIndex].cantidad += 1
-        setCarrito(newCarrito);
-        let totalArray = carrito.map(pizza => pizzas.find(pizzas =>pizzas === pizza)?.price);
-        setTotal(totalArray.reduce((acumulador, numero) => acumulador + numero, 0)) 
-      }   
+      addPizzaOncarrito(target, pizzas, carrito, setCarrito, setTotal )
     }
 
-    const onClickRemoveHandler = ({ target }) => {
-      const selectedPizza = pizzas.find(p => p.name === target.name);
-      const carritoPizzaFind = carrito.find(pizza => pizza === selectedPizza)
-      const carritoPizzaIndex = carrito.findIndex(pizza => pizza === selectedPizza)
-      const newCarrito = [...carrito]
-
-      if(carritoPizzaFind && carritoPizzaFind.cantidad >=2){
-        newCarrito[carritoPizzaIndex].price -= (selectedPizza.price / (newCarrito[carritoPizzaIndex].cantidad))
-        newCarrito[carritoPizzaIndex].cantidad -=1
-        setCarrito(newCarrito)
-        let totalArray = carrito.map(pizza => pizzas.find(pizzas =>pizzas === pizza)?.price);
-        setTotal(totalArray.reduce((acumulador, numero) => acumulador - numero, 0)) 
-      }else{
-        newCarrito.splice(carritoPizzaIndex, 1)
-        setCarrito(newCarrito)
-      }
-      
-    };  
+    const onClickRemoveHandler = ({target})=>{
+      removePizzaFromCarrito(target, pizzas, carrito, setCarrito, setTotal)
+    }
 
     const onAddCarritoHandler = (pizza)=>{
-      const selectedPizza = pizzas.find(p => p.name === pizza.name);
-      const selectedPizzaOnCarrito = carrito.find(p => p.name === selectedPizza.name)
-      const carritoPizzaIndex = carrito.findIndex(pizza => pizza === selectedPizza)
-      if(selectedPizzaOnCarrito){
-        const newCarrito =[...carrito]
-        newCarrito[carritoPizzaIndex]["cantidad"] += 1;
-        newCarrito[carritoPizzaIndex]["price"] += pizza.price/(pizza.cantidad - 1) ;
-        setCarrito(newCarrito)
-      }else{
-        pizza["cantidad"] = 1;
-        setCarrito([
-            ...carrito,
-            pizza
-        ])
-      }
-    }     
-
+      addPizzaTocarrito(pizza, pizzas, setCarrito, carrito)
+    }   
   
     const globalState = {
         pizzas,
